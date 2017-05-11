@@ -1,29 +1,22 @@
 package org.alexy.domain
-import java.time.LocalDate
-
-import org.alexy.models.Row
-import org.alexy.utils.Parser
+import org.alexy.TestHelper
+import org.alexy.utils.{DataSource, Parser}
 import org.specs2.matcher.ValueCheck
 import org.specs2.mock.Mockito
 import org.specs2.mutable.Specification
+import org.specs2.specification.BeforeEach
 /**
   * Created by alex on 11.05.17.
   */
-class DomainImplTest extends Specification with Mockito {
-  val mockedParser: Parser = mock[Parser]
-  val dummyDataSource = null
+class DomainImplTest extends Specification with Mockito with BeforeEach with TestHelper {
+  var mockedParser: Parser = _
+  val dummyDataSource: DataSource = null
   val domainTest = new DomainImpl(mockedParser)(dummyDataSource)
 
-  val testData = Seq(
-    Row(LocalDate.of(2016, 11, 1), 100.00, 120.00, 110.00, 120.00, 1000, 120.00),
-    Row(LocalDate.of(2016, 11, 2), 130.00, 150.00, 110.00, 140.00, 2000, 140.00),
-    Row(LocalDate.of(2016, 11, 5), 50.00, 80.00, 50.00, 120.00, 10000, 120.00),
-    Row(LocalDate.of(2016, 11, 3), 200.00, 250.00, 110.00, 200.00, 5000, 200.00),
-    Row(LocalDate.of(2016, 11, 4), 100.00, 120.00, 110.00, 120.00, 1000, 120.00)
-  )
-  val ticker = "GOOG"
-  val delta = 0.00000001
-  mockedParser.getDataBy(ticker)(dummyDataSource) returns testData
+  override protected def before: Any = {
+    mockedParser = mock[Parser]
+    mockedParser.getDataBy(ticker)(dummyDataSource) returns parsedData
+  }
 
   "Domain specification" >> {
     "should return - 1 year historic prices given a ticker" >> {
