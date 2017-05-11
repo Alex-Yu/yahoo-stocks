@@ -4,8 +4,6 @@ package org.alexy
   * Created by alex on 10.05.17.
   */
 
-import java.util.Properties
-
 import org.alexy.system.{ProdContext, SystemContext}
 
 /**
@@ -24,11 +22,12 @@ object Main extends App {
   val googleDailyReturns = domain.returns("GOOG")
   val googleAverageReturns = domain.meanReturn("GOOG")
 
-  println("-----------------daily prices:")
+  println("----------------- daily prices -----------------")
   googleDailyPrices.foreach(println)
-  println("-----------------returns:")
-  googleDailyReturns.foreach(println)
-  println(s"-----------------mean:    $googleAverageReturns")
+  println("----------------- daily returns -----------------")
+  googleDailyReturns.foreach(x => println(f"$x%1.6f"))
+  println("----------------- mean -----------------")
+  println(f"$googleAverageReturns%4.6f")
 }
 
 
