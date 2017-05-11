@@ -8,11 +8,11 @@ import org.alexy.system.Config
 /**
   * Created by alex on 11.05.17.
   */
-trait Source {
+trait DataSource {
   def getDataBy(ticker: String): Array[Row]
 }
 
-class SourceImpl(config: Config) extends Source {
+class DataSourceImpl(config: Config) extends DataSource {
   override def getDataBy(ticker: String): Array[Row] = {
     val url = pricesURL(LocalDate.now(), ticker)
     (getRawFromUrl _ andThen getParsedData)(url)
