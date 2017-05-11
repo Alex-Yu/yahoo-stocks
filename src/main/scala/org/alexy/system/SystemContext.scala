@@ -1,7 +1,6 @@
 package org.alexy.system
 
 import java.util.ResourceBundle
-
 import org.alexy.domain.{Domain, DomainImpl}
 import org.alexy.utils.{DataSource, DataSourceImpl, Parser, ParserImpl}
 

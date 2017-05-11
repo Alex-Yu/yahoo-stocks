@@ -1,5 +1,9 @@
 package org.alexy.domain
+
+import java.time.LocalDate.of
+
 import org.alexy.TestHelper
+import org.alexy.models.Row
 import org.alexy.utils.{DataSource, Parser}
 import org.specs2.matcher.ValueCheck
 import org.specs2.mock.Mockito
@@ -31,6 +35,25 @@ class DomainImplTest extends Specification with Mockito with BeforeEach with Tes
 
     "should return – 1 year mean returns given a ticker" >> {
       domainTest.meanReturn(ticker) must beCloseTo(140.00 +/- delta)
+    }
+
+    "should return empty daily prices returns on empty data" >> {
+      domainTest.dailyPrices(ticker) mustEqual Seq.empty[Double]
+    }
+
+    "should return empty daily returns on empty data" >> {
+      domainTest.returns(ticker) mustEqual Seq.empty[Double]
+    }
+
+    "should return empty daily returns on one row of data" >> {
+      val youngTicker = "YNG"
+      val result = Seq(Row(of(2016, 11, 1), 100.00, 120.00, 110.00, 120.00, 1000, 120.00))
+      mockedParser.getDataBy(youngTicker)(dummyDataSource) returns result
+      domainTest.returns(youngTicker) mustEqual Seq.empty[Double]
+    }
+
+    "should return zero mean returns on empty data" >> {
+      domainTest.meanReturn(ticker) mustEqual 0d
     }
 
   }

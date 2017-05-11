@@ -14,20 +14,21 @@ trait Domain {
 }
 
 class DomainImpl(parser: Parser)(implicit dataSource: DataSource) extends Domain {
-  //  1 - 1 year historic prices given a ticker /
+
   override def dailyPrices(ticker: String): Seq[Double] = parser.getDataBy(ticker).map(_.close)
 
-  //  2- daily returns, where return = ( Price_Today – Price_Yesterday)/Price_Yesterday /
   override def returns(ticker: String) : Seq[Double] = {
-    val sorted = parser.getDataBy(ticker).sortWith((a, b) => a.date.isBefore(b.date))
-    (sorted zip sorted.tail).map { case (y, t) =>
-      (t.close - y.close) / y.close
+    val data = parser.getDataBy(ticker)
+    if (data.isEmpty) Seq.empty[Double] else {
+      val sorted = parser.getDataBy(ticker).sortWith((a, b) => a.date.isBefore(b.date))
+      (sorted zip sorted.tail).map { case (y, t) =>
+        (t.close - y.close) / y.close
+      }
     }
   }
 
-  // 3 – 1 year mean returns
   override def meanReturn(ticker: String): Double = {
     val prices = dailyPrices(ticker)
-    prices.sum / prices.length
+    if (prices.isEmpty) 0 else prices.sum / prices.length
   }
 }

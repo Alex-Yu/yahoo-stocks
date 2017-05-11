@@ -1,6 +1,7 @@
 package org.alexy
 
-import java.time.LocalDate
+import java.time.LocalDate._
+
 import org.alexy.models.Row
 
 /**
@@ -8,6 +9,7 @@ import org.alexy.models.Row
   */
 trait TestHelper {
   val ticker = "GOOG"
+  val badTicker = "BAD"
 
   val url = "http://dummy.com"
   val urlOnlyHeaders = "http://empty.com"
@@ -33,11 +35,11 @@ trait TestHelper {
   )
 
   val parsedData = Seq(
-    Row(LocalDate.of(2016, 11, 1), 100.00, 120.00, 110.00, 120.00, 1000, 120.00),
-    Row(LocalDate.of(2016, 11, 2), 130.00, 150.00, 110.00, 140.00, 2000, 140.00),
-    Row(LocalDate.of(2016, 11, 5), 50.00, 80.00, 50.00, 120.00, 10000, 120.00),
-    Row(LocalDate.of(2016, 11, 3), 200.00, 250.00, 110.00, 200.00, 5000, 200.00),
-    Row(LocalDate.of(2016, 11, 4), 100.00, 120.00, 110.00, 120.00, 1000, 120.00)
+    Row(of(2016, 11, 1), 100.00, 120.00, 110.00, 120.00, 1000, 120.00),
+    Row(of(2016, 11, 2), 130.00, 150.00, 110.00, 140.00, 2000, 140.00),
+    Row(of(2016, 11, 5), 50.00, 80.00, 50.00, 120.00, 10000, 120.00),
+    Row(of(2016, 11, 3), 200.00, 250.00, 110.00, 200.00, 5000, 200.00),
+    Row(of(2016, 11, 4), 100.00, 120.00, 110.00, 120.00, 1000, 120.00)
   )
 
   val delta = 0.00000001

@@ -2,9 +2,7 @@ package org.alexy.utils
 
 import java.time.LocalDate
 import java.util.logging.Logger
-
 import org.alexy.system.Config
-
 import scala.util.Try
 
 /**
@@ -16,7 +14,7 @@ trait DataSource {
 }
 
 class DataSourceImpl(config: Config) extends DataSource {
-  val logger: Logger = Logger.getLogger(this.getClass.getName)
+  val logger: Logger = Logger.getLogger(this.getClass.getSimpleName)
 
   override def getUrl(ticker: String): String = pricesURL(LocalDate.now(), ticker)
 
@@ -24,7 +22,7 @@ class DataSourceImpl(config: Config) extends DataSource {
     io.Source.fromURL(url).getLines()
   }.fold(
     ex => {
-      logger.info(s"ERROR: $url is unreachable - ${ex.getMessage} is thrown")
+      logger.warning(s"[URL]=$url is unreachable - ${ex.toString} is thrown")
       Iterator.empty
     }, identity
   )
