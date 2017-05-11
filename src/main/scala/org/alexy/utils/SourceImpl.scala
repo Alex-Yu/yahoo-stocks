@@ -8,11 +8,17 @@ import org.alexy.system.Config
 /**
   * Created by alex on 11.05.17.
   */
-class Parser(getRawfromUrl: String => Iterator[String], config: Config) {
-  def getDataBy(ticker: String): Array[Row] = { //TODO think about some caching
-    val url = pricesURL(LocalDate.now(), ticker)   //TODO have to be mocked
-    getParsedData(getRawfromUrl(url))
+trait Source {
+  def getDataBy(ticker: String): Array[Row]
+}
+
+class SourceImpl(config: Config) extends Source {
+  override def getDataBy(ticker: String): Array[Row] = {
+    val url = pricesURL(LocalDate.now(), ticker)
+    (getRawFromUrl _ andThen getParsedData)(url)
   }
+
+  private[this] def getRawFromUrl(url: String): Iterator[String] = io.Source.fromURL(url).getLines()//TODO: Think about IOExceptions (logger??)
 
   private[this] def pricesURL(businessDate : LocalDate, ticker: String) : String = {
     val lastYear = businessDate.minusYears(1)
