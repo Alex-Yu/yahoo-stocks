@@ -1,6 +1,6 @@
 package org.alexy.domain
 
-import org.alexy.utils.{DataSource, DataSourceImpl}
+import org.alexy.utils.{DataSource, Parser}
 
 /**
   * Created by alex on 11.05.17.
@@ -13,7 +13,7 @@ trait Domain {
   def meanReturn(ticker: String): Double
 }
 
-class DomainImpl(parser: DataSource) extends Domain {
+class DomainImpl(parser: Parser)(implicit dataSource: DataSource) extends Domain {
   //  1 - 1 year historic prices given a ticker /
   override def dailyPrices(ticker: String): Seq[Double] = parser.getDataBy(ticker).map(_.close)
 

@@ -4,16 +4,16 @@ import java.time.LocalDate
 import org.specs2.mutable.Specification
 import org.alexy.domain.DomainImpl
 import org.alexy.models.Row
-import org.alexy.utils.DataSource
+import org.alexy.utils.Parser
 import org.specs2.matcher.{Matcher, ValueCheck}
 import org.specs2.mock.Mockito
 /**
   * Created by alex on 11.05.17.
   */
 class DomainImplTest extends Specification with Mockito {
-
-  val mockedDataSource: DataSource = mock[DataSource]
-  val domainTest = new DomainImpl(mockedDataSource)
+  val mockedParser: Parser = mock[Parser]
+  val dummyDataSource = null
+  val domainTest = new DomainImpl(mockedParser)(dummyDataSource)
 
   val testData = Seq(
     Row(LocalDate.of(2016, 11, 1), 100.00, 120.00, 110.00, 120.00, 1000, 120.00),
@@ -24,7 +24,7 @@ class DomainImplTest extends Specification with Mockito {
   )
   val ticker = "GOOG"
   val delta = 0.00000001
-  mockedDataSource.getDataBy(ticker) returns testData
+  mockedParser.getDataBy(ticker)(dummyDataSource) returns testData
 
   "Domain specification" >> {
     "should return - 1 year historic prices given a ticker" >> {
@@ -44,5 +44,3 @@ class DomainImplTest extends Specification with Mockito {
   }
 
 }
-
-// 120 140 200 120 120 =>

@@ -3,7 +3,6 @@ package org.alexy.utils
 import java.time.LocalDate
 import java.util.logging.Logger
 
-import org.alexy.models.Row
 import org.alexy.system.Config
 
 import scala.util.Try
@@ -12,18 +11,16 @@ import scala.util.Try
   * Created by alex on 11.05.17.
   */
 trait DataSource {
-  def getDataBy(ticker: String): Seq[Row]
+  def getUrl(ticker: String): String
+  def getRawFromUrl(url: String): Iterator[String]
 }
 
 class DataSourceImpl(config: Config) extends DataSource {
   val logger: Logger = Logger.getLogger(this.getClass.getName)
 
-  override def getDataBy(ticker: String): Seq[Row] = {
-    val url = pricesURL(LocalDate.now(), ticker)
-    (getRawFromUrl _ andThen getParsedData)(url)
-  }
+  override def getUrl(ticker: String): String = pricesURL(LocalDate.now(), ticker)
 
-  private[this] def getRawFromUrl(url: String): Iterator[String] = Try {
+  override def getRawFromUrl(url: String): Iterator[String] = Try {
     io.Source.fromURL(url).getLines()
   }.fold(
     ex => {
@@ -47,10 +44,5 @@ class DataSourceImpl(config: Config) extends DataSource {
         f"&a=${lastYear.getMonthValue}&b=${lastYear.getDayOfMonth}&c=${lastYear.getYear}" +
         f"&d=${businessDate.getMonthValue}&e=${businessDate.getDayOfMonth}&f=${businessDate.getYear}&g=d&ignore=.csv"
     )
-  }
-
-  private[this] def getParsedData(rawData: Iterator[String]): Seq[Row] = {
-    if (rawData.nonEmpty) rawData.drop(1).flatMap(Row.from).toSeq
-    else Seq.empty[Row]
   }
 }
