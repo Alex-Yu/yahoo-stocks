@@ -1,12 +1,11 @@
-package org.alexy.Domain
+package org.alexy.domain
 import java.time.LocalDate
 
-import org.specs2.mutable.Specification
-import org.alexy.domain.DomainImpl
 import org.alexy.models.Row
 import org.alexy.utils.Parser
-import org.specs2.matcher.{Matcher, ValueCheck}
+import org.specs2.matcher.ValueCheck
 import org.specs2.mock.Mockito
+import org.specs2.mutable.Specification
 /**
   * Created by alex on 11.05.17.
   */
