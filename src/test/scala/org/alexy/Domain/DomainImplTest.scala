@@ -15,7 +15,7 @@ class DomainImplTest extends Specification with Mockito {
   val mockedDataSource: DataSource = mock[DataSource]
   val domainTest = new DomainImpl(mockedDataSource)
 
-  val testData = Array(
+  val testData = Seq(
     Row(LocalDate.of(2016, 11, 1), 100.00, 120.00, 110.00, 120.00, 1000, 120.00),
     Row(LocalDate.of(2016, 11, 2), 130.00, 150.00, 110.00, 140.00, 2000, 140.00),
     Row(LocalDate.of(2016, 11, 5), 50.00, 80.00, 50.00, 120.00, 10000, 120.00),
@@ -28,7 +28,7 @@ class DomainImplTest extends Specification with Mockito {
 
   "Domain specification" >> {
     "should return - 1 year historic prices given a ticker" >> {
-      domainTest.dailyPrices(ticker) mustEqual Array(120.00, 140.00, 120.00, 200.00, 120.00)
+      domainTest.dailyPrices(ticker) mustEqual Seq(120.00, 140.00, 120.00, 200.00, 120.00)
     }
 
     "should return - 1 year daily returns given a ticker" >> {

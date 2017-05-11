@@ -6,13 +6,6 @@ package org.alexy
 
 import org.alexy.system.{ProdContext, SystemContext}
 
-/**
-  * Questions:
-  * 1. Caching?
-  * 2. What price: close or adjClose?
-  * 3. In def prices: today argument means businessDate?
-  */
-
 object Main extends App {
   val systemContext: SystemContext = new ProdContext
   val domain = systemContext.domain

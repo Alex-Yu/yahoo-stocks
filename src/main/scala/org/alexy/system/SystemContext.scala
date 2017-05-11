@@ -22,15 +22,6 @@ class ProdContext extends SystemContext {
   override lazy val config: Config = new Config
 }
 
-//TODO: Maybe unneccessary
-class TestContext extends SystemContext {
-  override lazy val source: DataSourceImpl = ???
-
-  override lazy val domain: DomainImpl = ???
-
-  override lazy val config: Config = null
-}
-
 class Config {
   private[this] lazy val rb = ResourceBundle.getBundle("config")
 
