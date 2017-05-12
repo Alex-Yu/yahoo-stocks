@@ -34,7 +34,7 @@ class DomainImplTest extends Specification with Mockito with BeforeEach with Tes
     }
 
     "should return – 1 year mean returns given a ticker" >> {
-      domainTest.meanReturn(ticker) must beCloseTo(140.00 +/- delta)
+      domainTest.meanReturn(ticker) must beCloseTo(0.495238129 +/- delta)
     }
 
     "should return empty daily prices returns on empty data" >> {

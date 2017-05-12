@@ -28,7 +28,7 @@ class DomainImpl(parser: Parser)(implicit dataSource: DataSource) extends Domain
   }
 
   override def meanReturn(ticker: String): Double = {
-    val prices = dailyPrices(ticker)
-    if (prices.isEmpty) 0 else prices.sum / prices.length
+    val ret = returns(ticker)
+    if (ret.isEmpty) 0 else ret.sum / ret.length
   }
 }
